@@ -15,7 +15,7 @@ function respond(id: RequestMessage["id"], result: object | null) {
   const message = JSON.stringify({ id, result })
   const messageLength = Buffer.byteLength(message, "utf-8")
   const header = `Content-Length: ${messageLength}\r\n\r\n`
-
+  log.write("Server is up")
   const response = header + message
   //log.write(response)
   process.stdout.write(response)
@@ -54,9 +54,9 @@ process.stdin.on("data", (chunk) => {
     const method = methodLookup[message.method]
     if (method) {
       const result = method(message)
-      if(result !== undefined){
+      if (result !== undefined) {
         respond(message.id, result)
-      } 
+      }
     }
 
     buffer = buffer.slice(messageStart + contentLength)

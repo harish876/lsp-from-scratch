@@ -16,14 +16,30 @@ export function activate(context: ExtensionContext) {
     path.join("server", "out", "server.js")
   );
 
+  const goServerModule = context.asAbsolutePath(
+    path.join("server-go", "cmd", "main.go")
+  )
+
   // If the extension is launched in debug mode then the debug server options are used
   // Otherwise the run options are used
   const serverOptions: ServerOptions = {
-    run: { module: serverModule, transport: TransportKind.stdio },
-    debug: {
-      module: serverModule,
+    run: {
+      command: "/Users/harishgokul/lsp-from-scratch/server-go/main",
       transport: TransportKind.stdio,
+      options: {
+        cwd: "server-go"
+      }
+
     },
+    debug: {
+      command: "/Users/harishgokul/lsp-from-scratch/server-go/main",
+      transport: TransportKind.stdio,
+    }
+    // run: { module: goServerModule, transport: TransportKind.stdio },
+    // debug: {
+    //   module: goServerModule,
+    //   transport: TransportKind.stdio,
+    // },
   };
 
   // Options to control the language client
@@ -38,8 +54,8 @@ export function activate(context: ExtensionContext) {
 
   // Create the language client and start the client.
   client = new LanguageClient(
-    "REPLACE_ME language-server-id",
-    "REPLACE_ME language server name",
+    "Harish LSP Client",
+    "Harish LSP Server",
     serverOptions,
     clientOptions
   );
