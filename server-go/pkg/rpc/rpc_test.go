@@ -3,7 +3,7 @@ package rpc_test
 import (
 	"testing"
 
-	rpc "github.com/harish876/lsp-from-scratch/pkg"
+	"github.com/harish876/lsp-from-scratch/pkg/rpc"
 )
 
 type EncodingExample struct {

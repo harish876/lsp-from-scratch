@@ -13,7 +13,7 @@ func EncodeMessage(msg any) string {
 	if err != nil {
 		panic(err)
 	}
-	return fmt.Sprintf("Content-Length:%d\r\n\r\n%s", len(content), content)
+	return fmt.Sprintf("Content-Length: %d\r\n\r\n%s", len(content), content)
 }
 
 type BaseMessage struct {

@@ -1,10 +1,10 @@
 {
-  "name": "REPLACE_ME",
-  "description": "REPLACE_ME",
-  "author": "REPLACE_ME",
+  "name": "lsp-from-scratch",
+  "description": "LSP Client",
+  "author": "harish876",
   "license": "MIT",
   "version": "0.0.1",
-  "publisher": "REPLACE_ME",
+  "publisher": "harish876",
   "repository": {
     "type": "git",
     "url": "REPLACE_ME"

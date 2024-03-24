@@ -10,37 +10,42 @@ import {
 
 let client: LanguageClient;
 
+
 export function activate(context: ExtensionContext) {
+
+  let serverVersion = "go"
   // The server is implemented in node
   const serverModule = context.asAbsolutePath(
     path.join("server", "out", "server.js")
   );
-
-  const goServerModule = context.asAbsolutePath(
-    path.join("server-go", "cmd", "main.go")
-  )
-
   // If the extension is launched in debug mode then the debug server options are used
   // Otherwise the run options are used
-  const serverOptions: ServerOptions = {
-    run: {
-      command: "/Users/harishgokul/lsp-from-scratch/server-go/main",
-      transport: TransportKind.stdio,
-      options: {
-        cwd: "server-go"
-      }
+  let serverOptions: ServerOptions
 
-    },
-    debug: {
-      command: "/Users/harishgokul/lsp-from-scratch/server-go/main",
-      transport: TransportKind.stdio,
+  if (serverVersion === "node") {
+    serverOptions = {
+      run: { module: serverModule, transport: TransportKind.stdio },
+      debug: {
+        module: serverModule,
+        transport: TransportKind.stdio,
+      },
     }
-    // run: { module: goServerModule, transport: TransportKind.stdio },
-    // debug: {
-    //   module: goServerModule,
-    //   transport: TransportKind.stdio,
-    // },
-  };
+  }
+  else {
+    serverOptions = {
+      run: {
+        command: "/Users/harishgokul/lsp-from-scratch/server-go/tmp/main",
+        transport: TransportKind.stdio,
+
+      },
+      debug: {
+        command: "/Users/harishgokul/lsp-from-scratch/server-go/tmp/main",
+        transport: TransportKind.stdio,
+      }
+    };
+  }
+
+  console.log(serverOptions)
 
   // Options to control the language client
   const clientOptions: LanguageClientOptions = {

@@ -17,7 +17,7 @@ function respond(id: RequestMessage["id"], result: object | null) {
   const header = `Content-Length: ${messageLength}\r\n\r\n`
   log.write("Server is up")
   const response = header + message
-  //log.write(response)
+  log.write(response)
   process.stdout.write(response)
 }
 interface Message {

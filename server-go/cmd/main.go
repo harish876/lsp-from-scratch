@@ -2,26 +2,64 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"log"
 	"os"
 
-	rpc "github.com/harish876/lsp-from-scratch/pkg"
+	"github.com/harish876/lsp-from-scratch/analysis"
+	"github.com/harish876/lsp-from-scratch/pkg/lsp"
+	rpc "github.com/harish876/lsp-from-scratch/pkg/rpc"
 )
 
 func main() {
 	logger := getLogger("/Users/harishgokul/lsp-from-scratch/server-go/log.txt")
-	logger.Println("Hey I started")
+	logger.Println("Hey man I started")
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Split(rpc.Split)
+	state := analysis.NewState()
 
-	for scanner.Scan() {
-		msg := scanner.Text()
-		handlerMessage(logger, msg)
+	for {
+		for scanner.Scan() {
+			msg := scanner.Bytes()
+			method, content, err := rpc.DecodeMessage(msg)
+			if err != nil {
+				logger.Printf("We gots some error: %v", err)
+			}
+			handlerMessage(logger, method, content, state)
+		}
 	}
+
 }
 
-func handlerMessage(logger *log.Logger, msg any) {
-	logger.Println(msg)
+func handlerMessage(logger *log.Logger, method string, content []byte, state analysis.State) {
+	logger.Printf("Received method: %s Content: %s", method, content)
+
+	switch method {
+	case "initialize":
+		var request lsp.InitializeRequest
+		if err := json.Unmarshal(content, &request); err != nil {
+			logger.Printf("Could Not Unmarshal initialize request request %v", err)
+		}
+		logger.Printf("Connected to: %s %s",
+			request.Params.ClientInfo.Name,
+			request.Params.ClientInfo.Version)
+
+		msg := lsp.NewInitializeResponse(request.ID)
+		reply := rpc.EncodeMessage(msg)
+		writer := os.Stdout
+		writer.Write([]byte(reply))
+
+		logger.Printf("Sent the message %s", reply)
+	case "textDocument/didOpen":
+		var request lsp.DidOpenTextDocumentNotification
+		if err := json.Unmarshal(content, &request); err != nil {
+			logger.Printf("Could Not Unmarshal initialize request request %v", err)
+		}
+		logger.Printf("Opened: %s %s",
+			request.Params.TextDocument.URI, request.Params.TextDocument.Text)
+
+		state.OpenDocument(request.Params.TextDocument.URI, request.Params.TextDocument.Text)
+	}
 }
 
 func getLogger(filename string) *log.Logger {
