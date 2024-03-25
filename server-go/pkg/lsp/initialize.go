@@ -27,6 +27,7 @@ type InitializeResult struct {
 type ServerCapabilities struct {
 	TextDocumentSync   int                `json:"textDocumentSync"`
 	PositionEncoding   string             `json:"positionEncoding,omitempty"`
+	HoverProvider      bool               `json:"hoverProvider"`
 	CompletionProvider CompletionProvider `json:"completionProvider,omitempty"`
 }
 
@@ -46,8 +47,10 @@ func NewInitializeResponse(id int) InitializeResponse {
 		},
 		Result: InitializeResult{
 			Capabilities: ServerCapabilities{
-				TextDocumentSync: 1,
-				PositionEncoding: "utf-16",
+				TextDocumentSync:   1,
+				PositionEncoding:   "utf-16",
+				HoverProvider:      true,
+				CompletionProvider: CompletionProvider{},
 			},
 			ServerInfo: ServerInfo{
 				Name:    "lsp-from-scratch",
