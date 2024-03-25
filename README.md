@@ -9,6 +9,7 @@
 
 1. Add a Tree Sitter.
 2. Make a small LSP for some language. ( Maybe HTMX )
+3. Figure out a way to run the debug server without using hacky solutions. Something to do with activation events but yet to figure out.
 
 # Minimum Viable VS Code Language Server Extension [Forked Documentation]
 
