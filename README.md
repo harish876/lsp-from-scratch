@@ -1,4 +1,16 @@
-# Minimum Viable VS Code Language Server Extension
+# TL;DR
+
+1. VS Code Client Which can communicate with an LSP Server.
+2. Pass in Server Options, If you were using a node LSP Server than pass in a node module. If using a Compiled Language like Go, pass in the executable to the client which can then communicate with your server.
+3. Currently have a node server and a golang language server.
+
+
+# TODO
+
+1. Add a Tree Sitter.
+2. Make a small LSP for some language. ( Maybe HTMX )
+
+# Minimum Viable VS Code Language Server Extension [Forked Documentation]
 
 NOTE: This is heavily based on [lsp-sample from vscode-extension-samples][sample] with the goal of removing example-specific code to ease starting a new Language Server.
 
